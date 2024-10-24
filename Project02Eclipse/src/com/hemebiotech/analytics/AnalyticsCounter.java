@@ -1,6 +1,5 @@
 package com.hemebiotech.analytics;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,16 +9,6 @@ public class AnalyticsCounter {
 
 	private ISymptomReader reader;
 	private ISymptomWriter writer;
-
-	public static void main(String[] args) throws IOException {
-
-		ISymptomReader reader = new ReadSymptomDataFromFile("symptoms.txt");
-		ISymptomWriter writer = new WriteSymptomDataToFile("result.out");
-
-		AnalyticsCounter analyticsCounter = new AnalyticsCounter(reader, writer);
-				
-
-	}
 
 	/**
 	 * Constructor
@@ -52,26 +41,25 @@ public class AnalyticsCounter {
 		Map<String, Integer> map = new HashMap<>();
 
 		for (String symptom : symptoms) {
-			
-			
+
 			// If the list does not contain the symptom
-			if (! map.containsKey(symptom)) {
-				
+			if (!map.containsKey(symptom)) {
+
 				// add the symptom to the list with a value of 1
 				map.put(symptom, 1);
-			
+
 			} else {
-				
+
 				// if the symptom is already in the list.
 				// find how many times the symptom has already been found
 				Integer nombreSymptonDejaTrouve = map.get(symptom);
 				// increment its value
 				nombreSymptonDejaTrouve++;
 				// update the list
-				map.put(symptom,nombreSymptonDejaTrouve);
+				map.put(symptom, nombreSymptonDejaTrouve);
 			}
 		}
-		
+
 		return map;
 	}
 
@@ -82,7 +70,7 @@ public class AnalyticsCounter {
 	 * @return
 	 */
 	public Map<String, Integer> sortSymptoms(Map<String, Integer> symptoms) {
-		
+
 		// Use a TreeMap to sort the map in alphabetical order of keys
 		Map<String, Integer> sortedMap = new TreeMap<>(symptoms);
 
