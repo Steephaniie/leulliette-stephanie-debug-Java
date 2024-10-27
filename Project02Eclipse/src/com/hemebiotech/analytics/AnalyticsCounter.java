@@ -11,10 +11,10 @@ public class AnalyticsCounter {
 	private ISymptomWriter writer;
 
 	/**
-	 * Constructor
+	 * Constructor an AnalyticsCounter with a specified symptom reader and writer.
 	 * 
-	 * @param reader
-	 * @param writer
+	 * @param reader the symptom reader used to retrieve symptoms
+	 * @param writer the symptom writer used to output symptom data
 	 */
 	public AnalyticsCounter(ISymptomReader reader, ISymptomWriter writer) {
 		this.reader = reader;
@@ -23,64 +23,60 @@ public class AnalyticsCounter {
 	}
 
 	/**
-	 * Returns the list of symptoms contained in the file
+	 * Retrieves the list of symptoms from the input source.
 	 * 
-	 * @return
+	 * @return a List of symptoms as Strings
 	 */
 	public List<String> getSymptoms() {
-		return reader.GetSymptoms();
+		return reader.getSymptoms();
 	}
 
 	/**
-	 * Counts the occurrences of each existing symptom
+	 * Counts occurrences of each symptom from a list of symptoms.
 	 * 
-	 * @param symptoms
-	 * @return
+	 * @param symptoms a List of symptom strings to be counted
+	 * @return a Map with each symptom as a key and its occurrence count as the
+	 *         value
 	 */
 	public Map<String, Integer> countSymptoms(List<String> symptoms) {
-		Map<String, Integer> map = new HashMap<>();
+		Map<String, Integer> symptomCountMap = new HashMap<>();
 
 		for (String symptom : symptoms) {
 
 			// If the list does not contain the symptom
-			if (!map.containsKey(symptom)) {
-
+			if (!symptomCountMap.containsKey(symptom)) {
 				// add the symptom to the list with a value of 1
-				map.put(symptom, 1);
+				symptomCountMap.put(symptom, 1);
 
 			} else {
 
-				// if the symptom is already in the list.
-				// find how many times the symptom has already been found
-				Integer nombreSymptonDejaTrouve = map.get(symptom);
-				// increment its value
-				nombreSymptonDejaTrouve++;
-				// update the list
-				map.put(symptom, nombreSymptonDejaTrouve);
+				// if the symptom is already in the list, icrement its count
+				Integer symptonCount = symptomCountMap.get(symptom);
+				symptonCount++;
+				symptomCountMap.put(symptom, symptonCount);
 			}
 		}
 
-		return map;
+		return symptomCountMap;
 	}
 
 	/**
-	 * Sorts the list of symptoms and occurrences in alphabetical order
+	 * Sorts the list of symptoms and their occurrences in alphabetical order.
 	 * 
-	 * @param symptoms
-	 * @return
+	 * @param symptoms a Map of symptoms and their occurrence counts
+	 * @returna Map sorted alphabetically by symptom names
 	 */
 	public Map<String, Integer> sortSymptoms(Map<String, Integer> symptoms) {
 
-		// Use a TreeMap to sort the map in alphabetical order of keys
+		// TreeMap sorts keys in alphabetical order by default
 		Map<String, Integer> sortedMap = new TreeMap<>(symptoms);
-
 		return sortedMap;
 	}
 
 	/**
-	 * Writes the result to the output file
+	 * Writes the sorted list of symptoms and their counts to an output source
 	 * 
-	 * @param symptoms
+	 * @param symptoms a Map of symptoms and their occurrence counts
 	 */
 	public void writeSymptoms(Map<String, Integer> symptoms) {
 		writer.writeSymptoms(symptoms);
